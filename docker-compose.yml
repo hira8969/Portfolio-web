@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      PORT: 8080
+    restart: unless-stopped
+
+  loadbalancer:
+    build:
+      context: ./loadbalancer
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+    restart: unless-stopped
